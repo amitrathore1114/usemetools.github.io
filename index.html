@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UseMeTools - Free Online Tools for Everyday Tasks</title>
+  <meta name="description" content="UseMeTools offers free, easy-to-use online tools to convert images, edit PDFs, format text, and more. Simplify your tasks with our fast, reliable utilities designed for students, professionals, and developers.">
+  <meta name="keywords" content="free online tools, image converter, PDF editor, text formatter, calculators, developer tools, video compressor, password generator, UseMeTools">
+  <meta name="author" content="UseMeTools Team">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="UseMeTools - Your All-in-One Online Toolkit">
+  <meta property="og:description" content="Discover UseMeTools, your go-to platform for free tools to convert, compress, and calculate. Perfect for quick, hassle-free solutions to everyday tasks.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.usemetools.com">
+  <meta property="og:image" content="https://www.usemetools.com/images/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="UseMeTools - Free Online Tools for Everyone">
+  <meta name="twitter:description" content="Convert images, edit PDFs, and simplify tasks with UseMeTools' free, user-friendly online tools. Boost productivity today!">
+  <meta name="twitter:image" content="https://www.usemetools.com/images/twitter-image.jpg">
+  <link rel="canonical" href="https://www.usemetools.com">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .animate-gradient {
+      background: linear-gradient(45deg, #f97316, #3b82f6);
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .tool-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .tool-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    .nav-link {
+      transition: color 0.3s ease;
+    }
+    .nav-link:hover {
+      color: #f97316;
+    }
+  </style>
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "UseMeTools",
+      "url": "https://www.usemetools.com",
+      "description": "UseMeTools provides free online tools for image conversion, PDF editing, text formatting, video compression, and more, designed to simplify tasks for everyone.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "UseMeTools",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.usemetools.com/images/logo.png"
+        }
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.usemetools.com/?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="sticky top-0 bg-white shadow-lg z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+      <h1 class="text-2xl font-bold text-orange-600 tracking-tight">UseMeTools</h1>
+      <nav class="space-x-8">
+        <a href="/" class="nav-link text-gray-700 hover:text-orange-600 text-sm font-medium">Home</a>
+        <a href="/tools" class="nav-link text-gray-700 hover:text-orange-600 text-sm font-medium">Tools</a>
+        <a href="/contact" class="nav-link text-gray-700 hover:text-orange-600 text-sm font-medium">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="animate-gradient text-white py-24 text-center px-4">
+    <h2 class="text-4xl sm:text-5xl font-extrabold mb-6 tracking-tight">
+      Simplify Your Life with <span class="text-yellow-300">UseMeTools</span>
+    </h2>
+    <p class="text-lg mb-10 max-w-2xl mx-auto opacity-90 leading-relaxed">Need to convert an image, edit a PDF, or crunch some numbers? UseMeTools has you covered with free, fast, and super easy-to-use online tools for students, professionals, and developers.</p>
+    <button 
+      onclick="document.getElementById('toolsSection').scrollIntoView({ behavior: 'smooth' })"
+      class="bg-white text-orange-600 font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-orange-100 hover:shadow-xl transition-all duration-300"
+    >
+      Discover Tools Now
+    </button>
+  </section>
+
+  <!-- Search Bar -->
+  <div class="max-w-3xl mx-auto px-6 -mt-12 relative z-10">
+    <div class="relative">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Find the perfect tool…" 
+        class="w-full p-4 pl-5 pr-12 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white text-gray-800 placeholder-gray-400 transition-all duration-300" 
+        aria-label="Search for online tools"
+      />
+      <svg 
+        class="w-5 h-5 absolute top-1/2 right-6 transform -translate-y-1/2 text-orange-500 transition duration-500" 
+        fill="none" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        viewBox="0 0 24 24" 
+        id="searchIcon"
+        aria-hidden="true"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Tools Section -->
+  <section id="toolsSection" class="max-w-7xl mx-auto py-20 px-4 sm:px-6 lg:px-8">
+    <h3 class="text-3xl font-extrabold text-gray-900 mb-12 text-center tracking-tight">Your Go-To Tools for Everyday Needs</h3>
+    <div id="toolsGrid" class="space-y-12"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-center py-8 text-sm text-gray-200">
+    <p><strong class="text-orange-400">UseMeTools</strong> – Your Trusted Toolkit for Smarter Work</p>
+    <p class="mt-2">
+      <a href="mailto:support@usemetools.com" class="text-orange-400 hover:underline">support@usemetools.com</a>
+    </p>
+    <div class="mt-3 space-x-4">
+      <a href="/privacy-policy" class="text-gray-400 hover:text-orange-400 hover:underline transition duration-300">Privacy Policy</a>
+      <a href="/terms-of-use" class="text-gray-400 hover:text-orange-400 hover:underline transition duration-300">Terms of Use</a>
+    </div>
+    <p class="mt-4 max-w-2xl mx-auto text-gray-400 text-xs leading-relaxed px-4">
+      At UseMeTools, we’re all about making your life easier with our free online tools. From converting images and editing PDFs to formatting text and generating QR codes, our tools are designed to save you time and boost productivity. Perfect for students, professionals, and developers alike.
+    </p>
+  </footer>
+
+  <!-- JavaScript for rendering tools -->
+  <script>
+    const tools = [
+      // Image Tools
+      { category: "Image Tools", name: "Image Converter", desc: "Convert images to JPG, PNG, or other formats effortlessly", href: "/tools/image-converter", colorFrom: "orange-500", colorTo: "blue-500" },
+      { category: "Image Tools", name: "Image Compressor", desc: "Shrink image sizes without losing quality", href: "/tools/image-compressor", colorFrom: "pink-500", colorTo: "red-500" },
+      { category: "Image Tools", name: "Image Cropper", desc: "Crop images to custom dimensions in seconds", href: "/tools/image-cropper", colorFrom: "purple-500", colorTo: "violet-600" },
+      { category: "Image Tools", name: "Image OCR", desc: "Extract text from images with high accuracy", href: "/tools/image-ocr", colorFrom: "cyan-500", colorTo: "teal-400" },
+      { category: "Image Tools", name: "Image Resizer", desc: "Resize images quickly for any purpose", href: "/tools/image-resizer", colorFrom: "emerald-500", colorTo: "lime-400" },
+      { category: "Image Tools", name: "Image Rotator", desc: "Rotate images to any angle with ease", href: "/tools/image-rotator", colorFrom: "yellow-400", colorTo: "amber-400" },
+      // PDF Tools
+      { category: "PDF Tools", name: "PDF to Word", desc: "Turn PDFs into editable Word documents", href: "/tools/pdf-to-word", colorFrom: "green-500", colorTo: "emerald-400" },
+      { category: "PDF Tools", name: "PDF Merge/Split", desc: "Combine or split PDFs in a few clicks", href: "/tools/pdf-merge-split", colorFrom: "blue-600", colorTo: "indigo-600" },
+      { category: "PDF Tools", name: "PDF Lock/Unlock", desc: "Secure or unlock PDFs instantly", href: "/tools/pdf-lock-unlock", colorFrom: "red-600", colorTo: "rose-600" },
+      { category: "PDF Tools", name: "PDF eSign", desc: "Add digital signatures to PDFs easily", href: "/tools/pdf-esign", colorFrom: "orange-500", colorTo: "amber-600" },
+      { category: "PDF Tools", name: "PDF Compressor", desc: "Reduce PDF file sizes for easy sharing", href: "/tools/pdf-compressor", colorFrom: "yellow-400", colorTo: "amber-400" },
+      // Text Tools
+      { category: "Text Tools", name: "Case Converter", desc: "Change text to uppercase, lowercase, or more", href: "/tools/case-converter", colorFrom: "yellow-400", colorTo: "orange-400" },
+      { category: "Text Tools", name: "Word Counter", desc: "Count words and characters accurately", href: "/tools/word-counter", colorFrom: "blue-500", colorTo: "cyan-400" },
+      { category: "Text Tools", name: "Spell Check", desc: "Check and correct spelling in your text", href: "/tools/spell-check", colorFrom: "red-500", colorTo: "rose-600" },
+      { category: "Text Tools", name: "Text Sorter", desc: "Sort text lines alphabetically or numerically", href: "/tools/text-sorter", colorFrom: "emerald-500", colorTo: "lime-400" },
+      { category: "Text Tools", name: "Cross Text Generator", desc: "Generate stylish crossed-out text", href: "/tools/cross-text-generator", colorFrom: "purple-600", colorTo: "violet-700" },
+      // Media Tools
+      { category: "Media Tools", name: "Video Compressor", desc: "Reduce video file sizes for easy sharing", href: "/tools/video-compressor", colorFrom: "indigo-500", colorTo: "blue-600" },
+      { category: "Media Tools", name: "Audio Converter", desc: "Convert audio files to MP3, WAV, or other formats", href: "/tools/audio-converter", colorFrom: "teal-500", colorTo: "cyan-600" },
+      // Utility Tools
+      { category: "Utility Tools", name: "QR Code Generator", desc: "Create custom QR codes in seconds", href: "/tools/qr-code-generator", colorFrom: "sky-500", colorTo: "cyan-400" },
+      { category: "Utility Tools", name: "Time Zone Converter", desc: "Convert time across global time zones", href: "/tools/time-zone-converter", colorFrom: "gray-600", colorTo: "gray-800" },
+      { category: "Utility Tools", name: "Random Picker", desc: "Pick random items from any list", href: "/tools/random-picker", colorFrom: "amber-500", colorTo: "yellow-500" },
+      { category: "Utility Tools", name: "Password Generator", desc: "Create secure, random passwords instantly", href: "/tools/password-generator", colorFrom: "red-500", colorTo: "pink-500" },
+      { category: "Utility Tools", name: "Unit Converter", desc: "Convert units like length, weight, and temperature", href: "/tools/unit-converter", colorFrom: "green-600", colorTo: "lime-500" },
+    ];
+
+    const toolsGrid = document.getElementById("toolsGrid");
+    const searchInput = document.getElementById("searchInput");
+    const searchIcon = document.getElementById("searchIcon");
+
+    function createToolCard(tool) {
+      const card = document.createElement("div");
+      card.className = `tool-card bg-gradient-to-br from-${tool.colorFrom} to-${tool.colorTo} text-white p-6 rounded-2xl shadow-md transition ease-in-out duration-300 mx-1`;
+      card.innerHTML = `
+        <h4 class="text-xl font-semibold mb-3 tracking-tight">${tool.name}</h4>
+        <p class="text-sm mb-4 opacity-90">${tool.desc}</p>
+        <a href="${tool.href}" class="inline-block bg-white text-gray-900 font-medium px-5 py-2 rounded-full hover:bg-gray-100 transition ease-in-out duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${tool.colorFrom}" aria-label="Use ${tool.name} tool">
+          Use Tool
+        </a>
+      `;
+      return card;
+    }
+
+    function renderTools(filter = "") {
+      toolsGrid.innerHTML = "";
+      const lowerFilter = filter.toLowerCase();
+      const filteredTools = tools.filter(tool =>
+        tool.name.toLowerCase().includes(lowerFilter) ||
+        tool.desc.toLowerCase().includes(lowerFilter) ||
+        tool.category.toLowerCase().includes(lowerFilter)
+      );
+
+      if (filteredTools.length === 0) {
+        toolsGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 font-medium">No tools found matching "${filter}"</p>`;
+        return;
+      }
+
+      // Group tools by category and count tools per category
+      const categoryCounts = filteredTools.reduce((acc, tool) => {
+        acc[tool.category] = (acc[tool.category] || 0) + 1;
+        return acc;
+      }, {});
+
+      // Get categories and sort by tool count (descending)
+      const categories = [...new Set(filteredTools.map(tool => tool.category))].sort((a, b) => {
+        return (categoryCounts[b] || 0) - (categoryCounts[a] || 0);
+      });
+
+      categories.forEach(category => {
+        const categoryTools = filteredTools.filter(tool => tool.category === category);
+        if (categoryTools.length > 0) {
+          // Create category heading
+          const categoryDiv = document.createElement("div");
+          categoryDiv.className = "mb-8";
+          const categoryHeading = document.createElement("h4");
+          categoryHeading.className = "text-2xl font-bold text-gray-800 mb-4";
+          categoryHeading.textContent = category;
+          categoryDiv.appendChild(categoryHeading);
+
+          // Create grid for tools in this category (always 3 columns)
+          const grid = document.createElement("div");
+          grid.className = "grid gap-8 grid-cols-3";
+          categoryTools.forEach(tool => {
+            grid.appendChild(createToolCard(tool));
+          });
+
+          categoryDiv.appendChild(grid);
+          toolsGrid.appendChild(categoryDiv);
+        }
+      });
+    }
+
+    renderTools();
+
+    searchInput.addEventListener("input", (e) => {
+      const value = e.target.value.trim();
+      renderTools(value);
+      searchIcon.classList.toggle("animate-pulse", value.length > 0);
+    });
+
+    searchInput.addEventListener("focus", () => searchIcon.classList.add("animate-pulse"));
+    searchInput.addEventListener("blur", () => searchIcon.classList.remove("animate-pulse"));
+  </script>
+</body>
+</html>
