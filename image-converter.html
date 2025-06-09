@@ -1,63 +1,13 @@
- <!-- Header -->
-  <header class="sticky top-0 bg-white shadow-lg z-50">
-    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-      <h1 class="text-2xl font-bold text-orange-600 tracking-tight">UseMeTools</h1>
-      <nav class="space-x-8">
-        <a href="/" class="nav-link text-gray-700 hover:text-orange-600 text-sm font-medium">Home</a>
-        <a href="/tools" class="nav-link text-gray-700 hover:text-orange-600 text-sm font-medium">Tools</a>
-        <a href="/contact" class="nav-link text-gray-700 hover:text-orange-600 text-sm font-medium">Contact</a>
-      </nav>
-    </div>
-  </header>
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Free Online Image Converter Tool - JPG, PNG, WebP, BMP | UseMeTools</title>
   <meta name="description" content="Convert images online for free using UseMeTools' fast and easy Image Converter. Supports JPG, PNG, WebP, BMP formats with image preview and compression.">
   <meta name="keywords" content="image converter, convert jpg to png, online image tool, image compression, webp to png, usemetools, free image converter">
   <meta name="author" content="UseMeTools">
-  <link href="https://cdn.jsdelivr.net/npm/[email protected]/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     :root {
       --orange: #f97316;
@@ -65,6 +15,9 @@
       --dark-blue: #003366;
       --gray-900: #1a202c;
       --gray-400: #e2e8f0;
+    }
+    * {
+      box-sizing: border-box;
     }
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -74,6 +27,35 @@
       padding: 0;
       min-height: 100vh;
     }
+
+    /* ========== HEADER ========== */
+    header {
+      background: linear-gradient(45deg, var(--orange), var(--red));
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: 500;
+      transition: opacity 0.3s;
+    }
+    nav a:hover {
+      opacity: 0.8;
+    }
+
     .container {
       max-width: 700px;
       margin: 2rem auto;
@@ -98,12 +80,6 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    .seo-text {
-      font-size: 1rem;
-      line-height: 1.6;
-      margin: 1rem 0 2rem;
-      color: #333;
-    }
     .upload-section {
       display: flex;
       flex-direction: column;
@@ -112,46 +88,27 @@
       padding: 1rem;
       border-radius: 8px;
       border: 2px dashed #ccc;
-      transition: border 0.3s, background 0.3s;
     }
-    .upload-section.dragover {
-      border-color: var(--orange);
-      background: rgba(249, 115, 22, 0.05);
+    .upload-section input,
+    .upload-section select,
+    .upload-section button {
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 1rem;
     }
     .upload-section input,
     .upload-section select {
-      padding: 10px;
-      border-radius: 6px;
       border: 1px solid var(--orange);
-      font-size: 1rem;
-      transition: border 0.3s;
-    }
-    .upload-section input:focus,
-    .upload-section select:focus {
-      outline: none;
-      border-color: var(--red);
-      box-shadow: 0 0 5px rgba(255, 71, 87, 0.3);
     }
     .upload-section button {
-      padding: 12px;
-      border-radius: 6px;
-      border: none;
       background: linear-gradient(45deg, var(--orange), var(--red));
       color: white;
-      font-size: 1rem;
+      border: none;
       cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .upload-section button:hover {
-      transform: translateY(-2px);
     }
     .preview {
       text-align: center;
       margin: 2rem 0;
-      padding: 1rem;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      border-image: linear-gradient(45deg, var(--orange), var(--red)) 1;
     }
     .preview-icon {
       font-size: 2.5rem;
@@ -159,46 +116,28 @@
       background: linear-gradient(45deg, var(--orange), var(--red));
       -webkit-background-clip: text;
       background-clip: text;
-      margin-bottom: 0.5rem;
     }
     .preview img {
       max-width: 100%;
       border-radius: 8px;
       border: 1px solid #ccc;
-      transition: transform 0.3s;
-    }
-    .preview img:hover {
-      transform: scale(1.05);
     }
     .seo-section {
-      background: white;
       padding: 2rem;
+      background: white;
       border-radius: 10px;
       margin: 2rem 0;
       box-shadow: 0 2px 10px rgba(0, 100, 255, 0.1);
     }
-    .seo-section h2,
-    .seo-section h3 {
+    .seo-section h2, .seo-section h3 {
       color: var(--orange);
-      margin-bottom: 1rem;
-    }
-    .seo-section details {
-      background: #f0f9ff;
-      padding: 1rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      transition: background 0.3s;
-    }
-    .seo-section details:hover {
-      background: rgba(249, 115, 22, 0.1);
     }
     .seo-section summary {
       cursor: pointer;
       font-weight: bold;
-      color: var(--dark-blue);
     }
     footer {
-      background-color: var(--gray-900);
+      background: var(--gray-900);
       color: var(--gray-400);
       text-align: center;
       padding: 2rem 1rem;
@@ -207,13 +146,6 @@
     footer a {
       color: var(--orange);
       text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-      color: #ffa94d;
-    }
-    footer .space-x-4 > * {
-      margin-right: 1rem;
     }
     .download-link {
       display: inline-block;
@@ -224,9 +156,6 @@
       text-decoration: none;
       font-size: 1rem;
       margin-top: 1rem;
-    }
-    .download-link:hover {
-      background: var(--orange);
     }
     .alert {
       position: fixed;
@@ -245,179 +174,105 @@
     .alert-error {
       background: var(--red);
     }
+
     @media (max-width: 600px) {
-      .container {
-        margin: 1rem;
-        padding: 15px;
-      }
-      h1 {
-        font-size: 1.5rem;
-      }
-      .upload-section {
-        padding: 0.8rem;
-      }
-      .preview-icon {
-        font-size: 2rem;
-      }
-      footer .space-x-4 {
-        display: flex;
+      header {
         flex-direction: column;
-        gap: 0.5rem;
-        margin-top: 1rem;
+        align-items: flex-start;
+      }
+      nav {
+        margin-top: 0.5rem;
+      }
+      nav a {
+        display: block;
+        margin: 0.3rem 0;
       }
     }
   </style>
 </head>
 <body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">UseMeTools</div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/tools">Tools</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- MAIN TOOL SECTION -->
   <main class="container">
     <h1>Free Online Image Converter</h1>
     <section class="upload-section" id="uploadSection">
-      <input type="file" id="imageInput" accept="image/*" aria-label="Upload image">
-      <select id="formatSelect" aria-label="Select output format">
+      <input type="file" id="imageInput" accept="image/*">
+      <select id="formatSelect">
         <option value="image/png">PNG</option>
         <option value="image/jpeg">JPG</option>
         <option value="image/webp">WebP</option>
         <option value="image/bmp">BMP</option>
       </select>
-      <button onclick="convertImage()" aria-label="Convert and download">Convert & Download</button>
+      <button onclick="convertImage()">Convert & Download</button>
     </section>
     <section class="preview">
       <i class="bi bi-image preview-icon"></i>
       <h2>Image Preview</h2>
       <canvas id="canvas" style="display: none;"></canvas>
-      <img id="previewImage" alt="Preview of uploaded image before conversion" role="img" loading="lazy" decoding="async" style="display: none; max-width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+      <img id="previewImage" alt="Preview" style="display: none;" />
       <div id="downloadContainer" style="display: none;"></div>
-      <noscript>
-        <p style="color: var(--red);">Please enable JavaScript to see the image preview.</p>
-      </noscript>
     </section>
   </main>
+
+  <!-- SEO + FAQ SECTION -->
   <section class="seo-section">
-    <div style="max-width: 900px; margin: auto; color: var(--dark-blue);">
-      <h2>Why Use Our Free Online Image Converter?</h2>
-      <p class="seo-text">
-        At <strong>UseMeTools</strong>, we've built this image converter tool to help you quickly convert your image files between multiple popular formats like <strong>JPG, PNG, WebP, and BMP</strong> — without the need for installing software. Whether you're resizing images for websites, optimizing for social media, or preparing them for print, our tool is <strong>fast, free, secure, and completely online</strong>.
-      </p>
-      <p class="seo-text">
-        Upload your image, select your desired format, and hit “Convert & Download.” You’ll also see a preview of your image before downloading. Our compression algorithm ensures minimal file size with high visual quality.
-      </p>
-      <div style="margin-top: 2rem;">
-        <h3>Tool Features & Specifications</h3>
-        <ul style="padding-left: 20px; font-size: 1rem; line-height: 1.8;">
-          <li>🔄 Supports JPG, PNG, WebP, BMP formats</li>
-          <li>🔍 Image preview before conversion</li>
-          <li>📉 Optimized compression (up to 80% size reduction)</li>
-          <li>💡 No sign-up required & totally free</li>
-          <li>📱 100% Mobile-responsive interface</li>
-        </ul>
-      </div>
-      <div style="margin-top: 2rem;">
-        <h3>Frequently Asked Questions</h3>
-        <details>
-          <summary>🖼️ What image formats are supported?</summary>
-          <p style="margin-top: 0.5rem;">You can convert images to and from JPG, PNG, WebP, and BMP formats easily using this tool.</p>
-        </details>
-        <details>
-          <summary>🔐 Is my image safe?</summary>
-          <p style="margin-top: 0.5rem;">Yes, all image processing happens in your browser. We don’t upload or store your images on any server.</p>
-        </details>
-        <details>
-          <summary>📥 Can I use this tool on my mobile phone?</summary>
-          <p style="margin-top: 0.5rem;">Absolutely. Our image converter is fully mobile-friendly and works on all modern smartphones and tablets.</p>
-        </details>
-      </div>
-    </div>
+    <h2>Why Use Our Free Online Image Converter?</h2>
+    <p>Convert between JPG, PNG, WebP, and BMP formats easily. Fast, secure, and works in your browser. No uploads or signups required.</p>
+    <h3>FAQs</h3>
+    <details><summary>🖼️ What image formats are supported?</summary><p>JPG, PNG, WebP, BMP.</p></details>
+    <details><summary>🔐 Is my image safe?</summary><p>Yes, everything runs locally in your browser.</p></details>
+    <details><summary>📱 Can I use it on mobile?</summary><p>Yes! Fully responsive design for smartphones and tablets.</p></details>
   </section>
-  <footer class="bg-gray-900 text-center py-8 text-sm text-gray-200">
-    <p><strong class="text-orange-400">UseMeTools</strong> – Your Trusted Toolkit for Smarter Work</p>
-    <p class="mt-2">
-      <a href="mailto:support@usemetools.com" class="text-orange-400 hover:underline">support@usemetools.com</a>
-    </p>
-    <div class="mt-3 space-x-4">
-      <a href="/privacy-policy" class="text-gray-400 hover:text-orange-400 hover:underline transition duration-300">Privacy Policy</a>
-      <a href="/terms-of-use" class="text-gray-400 hover:text-orange-400 hover:underline transition duration-300">Terms of Use</a>
-    </div>
-    <p class="mt-4 max-w-2xl mx-auto text-gray-400 text-xs leading-relaxed px-4">
-      At UseMeTools, we’re all about making your life easier with our free online tools. From converting images and editing PDFs to formatting text and generating QR codes, our tools are designed to save you time and boost productivity. Perfect for students, professionals, and developers alike.
+
+  <!-- FOOTER -->
+  <footer>
+    <p><strong>UseMeTools</strong> – Your Trusted Toolkit for Smarter Work</p>
+    <p><a href="mailto:support@usemetools.com">support@usemetools.com</a></p>
+    <p>
+      <a href="/privacy-policy">Privacy Policy</a> |
+      <a href="/terms-of-use">Terms of Use</a>
     </p>
   </footer>
-  <div id="alertContainer"></div>
+
+  <!-- SCRIPT -->
   <script>
     const imageInput = document.getElementById('imageInput');
     const formatSelect = document.getElementById('formatSelect');
     const canvas = document.getElementById('canvas');
     const previewImage = document.getElementById('previewImage');
-    const uploadSection = document.getElementById('uploadSection');
     const downloadContainer = document.getElementById('downloadContainer');
-    const alertContainer = document.getElementById('alertContainer');
 
     function supportsWebP() {
       const canvas = document.createElement('canvas');
-      if (canvas.getContext && canvas.getContext('2d')) {
-        return canvas.toDataURL('image/webp').startsWith('data:image/webp');
-      }
-      return false;
+      return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
     }
 
-    function showAlert(message, type = 'error') {
-      const alert = document.createElement('div');
-      alert.className = `alert alert-${type} show`;
-      alert.textContent = message;
-      alertContainer.appendChild(alert);
-      setTimeout(() => alert.classList.remove('show'), 3000);
-      setTimeout(() => alert.remove(), 3300);
-    }
-
-    uploadSection.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      uploadSection.classList.add('dragover');
+    imageInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        previewImage.src = e.target.result;
+        previewImage.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
     });
-    uploadSection.addEventListener('dragleave', () => {
-      uploadSection.classList.remove('dragover');
-    });
-    uploadSection.addEventListener('drop', (e) => {
-      e.preventDefault();
-      uploadSection.classList.remove('dragover');
-      if (e.dataTransfer.files.length) {
-        imageInput.files = e.dataTransfer.files;
-        handleFileSelect();
-      }
-    });
-
-    imageInput.addEventListener('change', handleFileSelect);
-
-    function handleFileSelect() {
-      const file = imageInput.files[0];
-      if (file) {
-        if (!file.type.startsWith('image/')) {
-          showAlert('Please upload a valid image file.');
-          return;
-        }
-        if (file.size > 10 * 1024 * 1024) {
-          showAlert('File size exceeds 10MB limit.');
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          previewImage.src = e.target.result;
-          previewImage.style.display = 'block';
-        };
-        reader.onerror = () => showAlert('Error reading image file.');
-        reader.readAsDataURL(file);
-      }
-    }
 
     function convertImage() {
       const file = imageInput.files[0];
-      const selectedFormat = formatSelect.value;
+      const format = formatSelect.value;
 
-      if (!file) {
-        showAlert('Please upload an image first.');
-        return;
-      }
-
-      if (selectedFormat === 'image/webp' && !supportsWebP()) {
-        showAlert('WebP is not supported in this browser. Please select JPG or PNG.');
+      if (!file || !previewImage.src) {
+        alert('Please upload an image first.');
         return;
       }
 
@@ -428,28 +283,19 @@
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
 
-        canvas.toBlob((blob) => {
-          if (!blob) {
-            showAlert('Conversion failed. Please try again.');
-            return;
-          }
+        canvas.toBlob(function (blob) {
+          const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
-          link.className = 'download-link';
-          link.download = `converted-image.${selectedFormat.split('/')[1]}`;
-          link.href = URL.createObjectURL(blob);
+          link.download = 'converted-image.' + format.split('/')[1];
+          link.href = url;
           link.textContent = 'Download Converted Image';
-          link.setAttribute('aria-label', 'Download converted image');
+          link.className = 'download-link';
           downloadContainer.innerHTML = '';
           downloadContainer.appendChild(link);
           downloadContainer.style.display = 'block';
-        }, selectedFormat, 0.8);
+        }, format);
       };
-      img.onerror = () => showAlert('Error loading image.');
       img.src = previewImage.src;
-    }
-
-    if (!supportsWebP()) {
-      document.querySelector('option[value="image/webp"]').disabled = true;
     }
   </script>
 </body>
