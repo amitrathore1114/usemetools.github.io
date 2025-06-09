@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Free Online Image Converter Tool - JPG, PNG, WebP, BMP | UseMeTools</title>
   <meta name="description" content="Convert images online for free using UseMeTools' fast and easy Image Converter. Supports JPG, PNG, WebP, BMP formats with image preview and compression.">
-  <meta name="keywords" content="image converter, convert jpg to png, online image tool, image compression, webp to png, usemetools, free image converter">
+  <meta name="keywords" content="image converter, convert jpg to png, online image tool, image compression, webp to png, usemetools, free image converter, convert image online, image resize, compress image, jpg to webp, png to jpg, online png converter, image optimizer">
   <meta name="author" content="UseMeTools">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
@@ -27,8 +27,7 @@
       padding: 0;
       min-height: 100vh;
     }
-
-    /* ========== HEADER ========== */
+    /* header styles */
     header {
       background: linear-gradient(45deg, var(--orange), var(--red));
       color: white;
@@ -55,7 +54,6 @@
     nav a:hover {
       opacity: 0.8;
     }
-
     .container {
       max-width: 700px;
       margin: 2rem auto;
@@ -174,33 +172,22 @@
     .alert-error {
       background: var(--red);
     }
-
     @media (max-width: 600px) {
-  header {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-  header .logo {
-    font-size: 1.2rem;
-    flex: 1 0 100%;
-    text-align: center;
-  }
-  nav {
-    display: flex;
-    gap: 0.8rem;
-    justify-content: center;
-    flex: 1 0 100%;
-  }
-  nav a {
-    margin: 0;
-  }
-}
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        margin-top: 0.5rem;
+      }
+      nav a {
+        display: block;
+        margin: 0.3rem 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
   <header>
     <div class="logo">UseMeTools</div>
     <nav>
@@ -209,8 +196,6 @@
       <a href="/contact">Contact</a>
     </nav>
   </header>
-
-  <!-- MAIN TOOL SECTION -->
   <main class="container">
     <h1>Free Online Image Converter</h1>
     <section class="upload-section" id="uploadSection">
@@ -231,18 +216,23 @@
       <div id="downloadContainer" style="display: none;"></div>
     </section>
   </main>
-
-  <!-- SEO + FAQ SECTION -->
   <section class="seo-section">
     <h2>Why Use Our Free Online Image Converter?</h2>
-    <p>Convert between JPG, PNG, WebP, and BMP formats easily. Fast, secure, and works in your browser. No uploads or signups required.</p>
-    <h3>FAQs</h3>
-    <details><summary>🖼️ What image formats are supported?</summary><p>JPG, PNG, WebP, BMP.</p></details>
-    <details><summary>🔐 Is my image safe?</summary><p>Yes, everything runs locally in your browser.</p></details>
-    <details><summary>📱 Can I use it on mobile?</summary><p>Yes! Fully responsive design for smartphones and tablets.</p></details>
+    <p>UseMeTools' Free Online Image Converter offers fast, secure, and hassle-free image format conversion. Whether you're converting JPG to PNG, WebP to JPG, or compressing BMP files — our tool works in-browser with no need to upload your files to a server. All conversions happen locally, ensuring full privacy and speed.</p>
+    <h3>Benefits of Using UseMeTools Converter</h3>
+    <ul>
+      <li>🧩 Supports JPG, PNG, WebP, and BMP formats</li>
+      <li>⚡ Lightning-fast conversion directly in your browser</li>
+      <li>🔐 100% privacy — images never leave your device</li>
+      <li>📱 Works perfectly on mobile, tablet, and desktop</li>
+      <li>🎯 Simple UI for quick and smooth experience</li>
+    </ul>
+    <h3>Frequently Asked Questions</h3>
+    <details><summary>🖼️ What image formats are supported?</summary><p>We support all major formats: JPG, PNG, WebP, and BMP. More coming soon!</p></details>
+    <details><summary>🔐 Is my image safe?</summary><p>Yes. Our converter works completely offline in your browser. No data is sent to any server.</p></details>
+    <details><summary>📱 Can I use this tool on mobile?</summary><p>Absolutely! The design is fully responsive, optimized for smartphones and tablets.</p></details>
+    <details><summary>💾 Can I compress or resize the image?</summary><p>Currently, the tool focuses on format conversion, but image compression and resizing features are coming soon.</p></details>
   </section>
-
-  <!-- FOOTER -->
   <footer>
     <p><strong>UseMeTools</strong> – Your Trusted Toolkit for Smarter Work</p>
     <p><a href="mailto:support@usemetools.com">support@usemetools.com</a></p>
@@ -251,8 +241,6 @@
       <a href="/terms-of-use">Terms of Use</a>
     </p>
   </footer>
-
-  <!-- SCRIPT -->
   <script>
     const imageInput = document.getElementById('imageInput');
     const formatSelect = document.getElementById('formatSelect');
