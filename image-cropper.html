@@ -601,9 +601,12 @@
     let cropX = 0, cropY = 0, cropWidth = 0, cropHeight = 0;
     let isDragging = false, isResizing = false, resizeHandle = null;
     let startX, startY;
+    let canvasScale = 1; // To track scaling factor for canvas
 
     // Initialize canvas context
     const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
     // Show toast notification
     function showToast(message) {
@@ -673,7 +676,6 @@
 
     // Update crop box position and size
     function updateCropBox() {
-      // Adjust crop box position based on image transformations
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
       const scaledCropX = centerX + (cropX - centerX) * scale;
@@ -691,12 +693,13 @@
     function drawImage() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
-      // Apply transformations
       ctx.translate(canvas.width / 2, canvas.height / 2);
       ctx.rotate((rotation * Math.PI) / 180);
       ctx.scale(scale, scale);
-      // Draw image centered with original dimensions
-      ctx.drawImage(img, -img.width / 2, -img.height / 2, img.width, img.height);
+      // Use original image dimensions, scaled to canvas
+      const renderWidth = img.naturalWidth * canvasScale;
+      const renderHeight = img.naturalHeight * canvasScale;
+      ctx.drawImage(img, -renderWidth / 2, -renderHeight / 2, renderWidth, renderHeight);
       ctx.restore();
     }
 
@@ -726,18 +729,19 @@
       if (isMobile) {
         // On mobile, scale canvas to fit viewport width
         const maxWidth = viewportWidth - 40; // Account for padding/margins
-        const imgRatio = img.width / img.height;
+        const imgRatio = img.naturalWidth / img.naturalHeight;
         canvas.width = maxWidth;
         canvas.height = maxWidth / imgRatio;
-
-        // Adjust image dimensions to match canvas
-        img.width = canvas.width;
-        img.height = canvas.height;
       } else {
-        // On desktop, use original image dimensions
-        canvas.width = img.width;
-        canvas.height = img.height;
+        // On desktop, use original image dimensions, but cap at a reasonable size
+        const maxWidth = Math.min(img.naturalWidth, 1200); // Cap for performance
+        const imgRatio = img.naturalWidth / img.naturalHeight;
+        canvas.width = maxWidth;
+        canvas.height = maxWidth / imgRatio;
       }
+
+      // Calculate scaling factor for rendering
+      canvasScale = canvas.width / img.naturalWidth;
 
       drawImage();
       initCropBox();
@@ -853,23 +857,27 @@
 
       downloadLink.classList.add('loading');
       const previewCtx = previewCanvas.getContext('2d');
+      previewCtx.imageSmoothingEnabled = true;
+      previewCtx.imageSmoothingQuality = 'high';
+
+      // Convert crop coordinates back to original image space
+      const originalCropX = (cropX / canvasScale);
+      const originalCropY = (cropY / canvasScale);
+      const originalCropWidth = (cropWidth / canvasScale);
+      const originalCropHeight = (cropHeight / canvasScale);
 
       // Set preview canvas dimensions to crop size (scaled for better quality)
-      previewCanvas.width = cropWidth * 2; // Increase resolution for better quality
-      previewCanvas.height = cropHeight * 2;
+      previewCanvas.width = originalCropWidth * 2;
+      previewCanvas.height = originalCropHeight * 2;
 
       // Adjust for scale and rotation in cropping
       previewCtx.save();
-      // Scale the context to match the increased resolution
-      previewCtx.scale(2, 2);
-      // Translate to crop position
-      previewCtx.translate(-cropX, -cropY);
-      // Apply canvas transformations
-      previewCtx.translate(canvas.width / 2, canvas.height / 2);
+      previewCtx.scale(2, 2); // For high quality output
+      previewCtx.translate(-originalCropX, -originalCropY);
+      previewCtx.translate(img.naturalWidth / 2, img.naturalHeight / 2);
       previewCtx.rotate((rotation * Math.PI) / 180);
       previewCtx.scale(scale, scale);
-      // Draw the image with original dimensions for clarity
-      previewCtx.drawImage(img, -img.width / 2, -img.height / 2, img.width, img.height);
+      previewCtx.drawImage(img, -img.naturalWidth / 2, -img.naturalHeight / 2, img.naturalWidth, img.naturalHeight);
       previewCtx.restore();
 
       previewCanvas.style.display = 'block';
@@ -889,7 +897,6 @@
           downloadLink.style.display = 'inline-flex';
           downloadLink.classList.remove('loading');
           showToast('Cropped Successfully');
-          // Clean up previous URLs to prevent memory leaks
           setTimeout(() => URL.revokeObjectURL(url), 10000);
         }, format, 1.0); // Quality set to 1.0 for best results
       } catch (error) {
