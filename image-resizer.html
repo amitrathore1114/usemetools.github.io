@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advance Image Resizer Tool - UseMeTools</title>
+  <meta name="description" content="Resize images online with UseMeTools' free, mobile-friendly Advance Image Resizer. Supports batch resizing, undo/redo, real-time preview, flip/rotate, and JPG/PNG downloads with compression options.">
+  <meta name="keywords" content="image resizer, resize image online, free image resize tool, photo resizer, image editor, mobile image resize, usemetools, resize jpg, resize png">
+  <meta name="author" content="UseMeTools">
+  <style>
+    /* Define CSS variables for theming */
+    :root {
+      --primary: #f97316;
+      --secondary: #ff4757;
+      --dark: #1a202c;
+      --light: #f0f9ff;
+      --gray: #e2e8f0;
+      --shadow: 0 4px 20px rgba(0, 100, 255, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Header styles */
+    header {
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    header .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: opacity 0.3s, transform 0.2s;
+    }
+
+    nav a:hover {
+      opacity: 0.8;
+      transform: translateY(-2px);
+    }
+
+    /* Hamburger menu */
+    .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    #nav-toggle {
+      display: none;
+    }
+
+    /* Main container */
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      border: 1px solid transparent;
+      border-image: linear-gradient(45deg, var(--primary), var(--secondary)) 1;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      font-weight: 600;
+      animation: gradientShift 5s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Upload section */
+    .upload-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.5rem;
+      border: 2px dashed var(--gray);
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      transition: background 0.3s;
+    }
+
+    .upload-section.dragover {
+      background: var(--gray);
+    }
+
+    .upload-section input,
+    .upload-section select,
+    .upload-section button {
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      border: 1px solid var(--primary);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .upload-section input:focus,
+    .upload-section select:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 5px rgba(255, 71, 87, 0.3);
+    }
+
+    .upload-section button {
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .upload-section button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Resize controls */
+    .resize-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.75rem;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .resize-controls input[type="number"],
+    .resize-controls select,
+    .resize-controls button,
+    .resize-controls label {
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      border: 1px solid var(--primary);
+      background: white;
+      transition: all 0.3s;
+    }
+
+    .resize-controls input[type="number"] {
+      width: 100%;
+    }
+
+    .resize-controls button {
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .resize-controls button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .resize-controls select:focus,
+    .resize-controls input:focus,
+    .resize-controls button:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(255, 71, 87, 0.3);
+    }
+
+    .resize-controls label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .resize-controls input[type="range"] {
+      width: 100%;
+      margin: 0.5rem 0;
+    }
+
+    /* Preview area */
+    .preview-area {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      border: 1px solid var(--gray);
+      border-radius: 8px;
+      background: #f9f9f9;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .preview-canvas {
+      max-width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--gray);
+      box-shadow: var(--shadow);
+      display: block; /* Ensure canvas is visible */
+      margin: 0 auto;
+    }
+
+    .file-size-info {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--dark);
+    }
+
+    /* Download button */
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 1rem;
+    }
+
+    .download-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .download-link.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .download-link i {
+      font-size: 1.2rem;
+    }
+
+    /* SEO section */
+    .seo-section {
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      margin: 2rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .seo-section h2, .seo-section h3 {
+      color: var(--primary);
+    }
+
+    .seo-section summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Footer styles */
+    footer {
+      background: var(--dark);
+      color: var(--gray);
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.875rem;
+      margin-top: 2rem;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: var(--secondary);
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      border-radius: 6px;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: var(--shadow);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 600px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+
+      header .logo {
+        font-size: 1.3rem;
+      }
+
+      nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--dark);
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: var(--shadow);
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      nav a {
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .container {
+        margin: 0.5rem;
+        padding: 0.75rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        padding: 0.75rem;
+      }
+
+      .upload-section {
+        padding: 1rem;
+      }
+
+      .upload-section input,
+      .upload-section select,
+      .upload-section button {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .resize-controls {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        padding: 0.5rem;
+      }
+
+      .resize-controls input[type="number"],
+      .resize-controls select,
+      .resize-controls button,
+      .resize-controls label {
+        width: 100%;
+        padding: 0.6rem;
+        font-size: 0.9rem;
+      }
+
+      .preview-area {
+        margin-top: 1rem;
+        padding: 0.5rem;
+      }
+
+      .preview-area h2 {
+        font-size: 1.2rem;
+      }
+
+      .download-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .file-size-info {
+        font-size: 0.8rem;
+      }
+
+      .seo-section {
+        padding: 1rem;
+      }
+
+      .seo-section h2 {
+        font-size: 1.3rem;
+      }
+
+      .seo-section h3 {
+        font-size: 1.1rem;
+      }
+
+      .seo-section p,
+      .seo-section li {
+        font-size: 0.9rem;
+      }
+
+      footer {
+        padding: 1rem;
+        font-size: 0.8rem;
+      }
+
+      .toast {
+        top: 10px;
+        right: 10px;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with logo and navigation -->
+  <header>
+    <div class="logo">UseMeTools</div>
+    <input type="checkbox" id="nav-toggle">
+    <label for="nav-toggle" class="hamburger">☰</label>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/tools">Tools</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Main tool section -->
+  <main class="container">
+    <h1>Advance Image Resizer Tool</h1>
+    <section class="upload-section" id="uploadSection">
+      <p>Drag & drop images here or click to upload (Multiple images supported)</p>
+      <input type="file" id="imageInput" accept="image/*" multiple>
+    </section>
+
+    <!-- Resize controls -->
+    <section class="resize-controls">
+      <input type="number" id="resizeWidth" placeholder="Width (px)" min="1">
+      <input type="number" id="resizeHeight" placeholder="Height (px)" min="1">
+      <label>
+        <input type="checkbox" id="maintainAspectRatio" checked>
+        Maintain Aspect Ratio
+      </label>
+      <input type="number" id="resizePercentage" placeholder="Percentage (%)" min="1" max="200">
+      <select id="predefinedSizes">
+        <option value="">Custom Size</option>
+        <option value="1920x1080">Full HD (1920x1080)</option>
+        <option value="1080x1080">Instagram Square (1080x1080)</option>
+        <option value="1200x630">Facebook Share (1200x630)</option>
+        <option value="800x800">Thumbnail (800x800)</option>
+      </select>
+      <label>
+        <input type="checkbox" id="livePreview" checked>
+        Live Preview
+      </label>
+      <button onclick="flipImage('horizontal')">Flip Horizontal</button>
+      <button onclick="flipImage('vertical')">Flip Vertical</button>
+      <button onclick="rotateImage(90)">Rotate Right</button>
+      <button onclick="rotateImage(-90)">Rotate Left</button>
+      <button onclick="undo()">Undo</button>
+      <button onclick="redo()">Redo</button>
+      <select id="outputFormat">
+        <option value="image/jpeg">JPG</option>
+        <option value="image/png">PNG</option>
+      </select>
+      <label>
+        JPG Quality
+        <input type="range" id="jpgQuality" min="0" max="100" value="90">
+        <span id="jpgQualityValue">90%</span>
+      </label>
+      <button onclick="resizeImages()">Resize</button>
+    </section>
+
+    <!-- Preview area -->
+    <section class="preview-area">
+      <h2>Image Preview</h2>
+      <div id="previewContainer"></div>
+      <a id="downloadLink" style="display: none;" class="download-link">
+        <i>↓</i> <span id="downloadText">Download All Resized Images</span>
+      </a>
+    </section>
+  </main>
+
+  <!-- SEO section -->
+  <section class="container">
+    <div class="seo-section">
+      <h2>Why Use Our Advance Image Resizer?</h2>
+      <p>UseMeTools' Advance Image Resizer offers a powerful and user-friendly way to resize images online. Whether for social media, websites, or personal projects, resize with custom dimensions, maintain aspect ratios, use percentage scaling, and download in JPG or PNG with compression — all in your browser with no server uploads.</p>
+      <h3>Benefits of Using UseMeTools Resizer</h3>
+      <ul>
+        <li>🖼️ Batch resize multiple images at once</li>
+        <li>⚡ Undo/Redo for easy corrections</li>
+        <li>🔐 Real-time preview while adjusting dimensions</li>
+        <li>📱 Flip and rotate images before resizing</li>
+        <li>🎯 File size display for better optimization</li>
+      </ul>
+      <h3>Frequently Asked Questions</h3>
+      <details><summary>🖼️ What image formats are supported?</summary><p>We support JPG and PNG formats for resizing and downloading.</p></details>
+      <details><summary>🔐 Is my image safe?</summary><p>Yes, all resizing happens locally in your browser, ensuring complete privacy.</p></details>
+      <details><summary>📱 Can I use this on mobile?</summary><p>Absolutely! The tool is optimized for touch gestures on smartphones and tablets.</p></details>
+      <details><summary>💾 Can I compress images?</summary><p>Yes, for JPG outputs, you can adjust the compression level using the quality slider.</p></details>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p><strong>UseMeTools</strong> – Your Trusted Toolkit for Smarter Work</p>
+    <p><a href="mailto:support@usemetools.com">support@usemetools.com</a></p>
+    <p>
+      <a href="/privacy-policy">Privacy Policy</a> |
+      <a href="/terms-of-use">Terms of Use</a>
+    </p>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // DOM elements
+    const imageInput = document.getElementById('imageInput');
+    const uploadSection = document.getElementById('uploadSection');
+    const resizeWidthInput = document.getElementById('resizeWidth');
+    const resizeHeightInput = document.getElementById('resizeHeight');
+    const maintainAspectRatioCheckbox = document.getElementById('maintainAspectRatio');
+    const resizePercentageInput = document.getElementById('resizePercentage');
+    const predefinedSizesSelect = document.getElementById('predefinedSizes');
+    const livePreviewCheckbox = document.getElementById('livePreview');
+    const outputFormatSelect = document.getElementById('outputFormat');
+    const jpgQualityInput = document.getElementById('jpgQuality');
+    const jpgQualityValue = document.getElementById('jpgQualityValue');
+    const previewContainer = document.getElementById('previewContainer');
+    const downloadLink = document.getElementById('downloadLink');
+    const downloadText = document.getElementById('downloadText');
+    const navToggle = document.getElementById('nav-toggle');
+    const nav = document.querySelector('nav');
+    const toast = document.getElementById('toast');
+
+    // State
+    let images = [];
+    let history = [];
+    let historyIndex = -1;
+    let flipHorizontal = false;
+    let flipVertical = false;
+    let rotation = 0;
+
+    // Show toast notification
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Handle hamburger menu toggle
+    navToggle.addEventListener('change', () => {
+      nav.classList.toggle('show', navToggle.checked);
+    });
+
+    // Handle drag and drop
+    uploadSection.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadSection.classList.add('dragover');
+    });
+
+    uploadSection.addEventListener('dragleave', () => {
+      uploadSection.classList.remove('dragover');
+    });
+
+    uploadSection.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadSection.classList.remove('dragover');
+      const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+      if (files.length) {
+        handleImages(files);
+      } else {
+        showToast('Please drop image files.');
+      }
+    });
+
+    // Handle file input
+    imageInput.addEventListener('change', () => {
+      const files = Array.from(imageInput.files);
+      if (files.length) {
+        handleImages(files);
+      }
+    });
+
+    // Load and display images
+    function handleImages(files) {
+      images = [];
+      let loadedCount = 0;
+      let failedCount = 0;
+      files.forEach((file, index) => {
+        const img = new Image();
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          img.src = e.target.result;
+          img.onload = () => {
+            console.log(`Image ${index} loaded successfully: ${file.name}, Dimensions: ${img.naturalWidth}x${img.naturalHeight}`);
+            images[index] = { img, fileSize: file.size, width: img.naturalWidth, height: img.naturalHeight };
+            loadedCount++;
+            if (loadedCount + failedCount === files.length) {
+              if (loadedCount > 0) {
+                reset();
+                showToast(`${loadedCount} Image(s) Uploaded Successfully`);
+              } else {
+                showToast('No valid images could be loaded.');
+              }
+            }
+          };
+          img.onerror = () => {
+            console.error(`Failed to load image ${index}: ${file.name}`);
+            failedCount++;
+            if (loadedCount + failedCount === files.length) {
+              if (loadedCount > 0) {
+                reset();
+                showToast(`${loadedCount} Image(s) Uploaded Successfully`);
+              } else {
+                showToast('No valid images could be loaded.');
+              }
+            }
+          };
+        };
+        reader.onerror = () => {
+          console.error(`Failed to read file ${index}: ${file.name}`);
+          failedCount++;
+          if (loadedCount + failedCount === files.length) {
+            if (loadedCount > 0) {
+              reset();
+              showToast(`${loadedCount} Image(s) Uploaded Successfully`);
+            } else {
+              showToast('No valid images could be loaded.');
+            }
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Reset function
+    function reset() {
+      if (!images.length) {
+        console.warn('No images to reset.');
+        return;
+      }
+
+      // Reset transformations
+      flipHorizontal = false;
+      flipVertical = false;
+      rotation = 0;
+      history = [];
+      historyIndex = -1;
+
+      // Reset inputs
+      const firstImage = images[0];
+      resizeWidthInput.value = firstImage.width;
+      resizeHeightInput.value = firstImage.height;
+      resizePercentageInput.value = '';
+      predefinedSizesSelect.value = '';
+      jpgQualityInput.value = 90;
+      jpgQualityValue.textContent = '90%';
+
+      // Clear preview container
+      previewContainer.innerHTML = '';
+      console.log('Preview container cleared.');
+
+      // Display all images
+      images.forEach((imageObj, index) => {
+        if (!imageObj || !imageObj.img) {
+          console.warn(`Image object at index ${index} is invalid.`);
+          return;
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.id = `previewCanvas-${index}`;
+        canvas.className = 'preview-canvas';
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+
+        // Calculate canvas dimensions
+        const viewportWidth = window.innerWidth;
+        const isMobile = viewportWidth <= 600;
+        const maxWidth = isMobile ? viewportWidth - 60 : Math.min(imageObj.width, 700);
+        const imgRatio = imageObj.width / imageObj.height;
+
+        if (isNaN(maxWidth) || isNaN(imgRatio) || imgRatio <= 0) {
+          console.error(`Invalid dimensions for image ${index}: maxWidth=${maxWidth}, imgRatio=${imgRatio}`);
+          return;
+        }
+
+        canvas.width = maxWidth;
+        canvas.height = maxWidth / imgRatio;
+
+        if (canvas.width <= 0 || canvas.height <= 0) {
+          console.error(`Invalid canvas dimensions for image ${index}: width=${canvas.width}, height=${canvas.height}`);
+          return;
+        }
+
+        imageObj.canvasScale = canvas.width / imageObj.width;
+        imageObj.currentWidth = imageObj.width;
+        imageObj.currentHeight = imageObj.height;
+
+        console.log(`Canvas ${index} dimensions: ${canvas.width}x${canvas.height}, Scale: ${imageObj.canvasScale}`);
+
+        // Draw the image
+        drawImage(imageObj, canvas, ctx);
+        previewContainer.appendChild(canvas);
+        console.log(`Canvas ${index} appended to preview container.`);
+
+        const fileSizeDiv = document.createElement('div');
+        fileSizeDiv.className = 'file-size-info';
+        fileSizeDiv.innerHTML = `Original Size: ${(imageObj.fileSize / 1024).toFixed(2)} KB`;
+        previewContainer.appendChild(fileSizeDiv);
+      });
+
+      // Update download button text based on number of images
+      downloadText.textContent = images.length === 1 ? 'Download Resized Image' : 'Download All Resized Images';
+      downloadLink.style.display = 'none';
+      downloadLink.classList.remove('loading');
+      saveHistory();
+    }
+
+    // Draw image on canvas
+    function drawImage(imageObj, canvas, ctx, width = imageObj.currentWidth, height = imageObj.currentHeight) {
+      if (!imageObj || !imageObj.img || !canvas || !ctx) {
+        console.error('Invalid parameters for drawImage:', { imageObj, canvas, ctx });
+        return;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Simplify rendering for preview - avoid complex transformations
+      const renderWidth = width * imageObj.canvasScale;
+      const renderHeight = height * imageObj.canvasScale;
+
+      if (renderWidth <= 0 || renderHeight <= 0) {
+        console.error(`Invalid render dimensions: ${renderWidth}x${renderHeight}`);
+        return;
+      }
+
+      // Apply transformations
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate((rotation * Math.PI) / 180);
+      if (flipHorizontal) ctx.scale(-1, 1);
+      if (flipVertical) ctx.scale(1, -1);
+      ctx.drawImage(imageObj.img, -renderWidth / 2, -renderHeight / 2, renderWidth, renderHeight);
+      ctx.restore();
+
+      console.log(`Image drawn on canvas: ${renderWidth}x${renderHeight}`);
+    }
+
+    // Handle aspect ratio maintenance
+    resizeWidthInput.addEventListener('input', () => {
+      if (maintainAspectRatioCheckbox.checked && images.length) {
+        const newWidth = parseInt(resizeWidthInput.value);
+        if (!isNaN(newWidth) && newWidth > 0) {
+          const ratio = images[0].height / images[0].width;
+          resizeHeightInput.value = Math.round(newWidth * ratio);
+        }
+      }
+      if (livePreviewCheckbox.checked) {
+        updateLivePreview();
+      }
+    });
+
+    resizeHeightInput.addEventListener('input', () => {
+      if (maintainAspectRatioCheckbox.checked && images.length) {
+        const newHeight = parseInt(resizeHeightInput.value);
+        if (!isNaN(newHeight) && newHeight > 0) {
+          const ratio = images[0].width / images[0].height;
+          resizeWidthInput.value = Math.round(newHeight * ratio);
+        }
+      }
+      if (livePreviewCheckbox.checked) {
+        updateLivePreview();
+      }
+    });
+
+    // Handle percentage resize
+    resizePercentageInput.addEventListener('input', () => {
+      const percentage = parseFloat(resizePercentageInput.value);
+      if (!isNaN(percentage) && percentage > 0 && images.length) {
+        const newWidth = Math.round(images[0].width * (percentage / 100));
+        const newHeight = Math.round(images[0].height * (percentage / 100));
+        resizeWidthInput.value = newWidth;
+        resizeHeightInput.value = newHeight;
+        if (livePreviewCheckbox.checked) {
+          updateLivePreview();
+        }
+      }
+    });
+
+    // Handle predefined sizes
+    predefinedSizesSelect.addEventListener('change', () => {
+      const value = predefinedSizesSelect.value;
+      if (value) {
+        const [width, height] = value.split('x').map(Number);
+        resizeWidthInput.value = width;
+        resizeHeightInput.value = height;
+        if (livePreviewCheckbox.checked) {
+          updateLivePreview();
+        }
+      }
+    });
+
+    // Update JPG quality display and warn if too low
+    jpgQualityInput.addEventListener('input', () => {
+      const quality = parseInt(jpgQualityInput.value);
+      jpgQualityValue.textContent = `${quality}%`;
+      if (outputFormatSelect.value === 'image/jpeg' && quality < 50) {
+        showToast('Warning: Low JPG quality may degrade image clarity.');
+      }
+    });
+
+    // Live preview update
+    function updateLivePreview() {
+      const newWidth = parseInt(resizeWidthInput.value);
+      const newHeight = parseInt(resizeHeightInput.value);
+      if (isNaN(newWidth) || isNaN(newHeight) || newWidth <= 0 || newHeight <= 0) {
+        console.warn('Invalid dimensions for live preview:', newWidth, newHeight);
+        return;
+      }
+
+      images.forEach((imageObj, index) => {
+        const canvas = document.getElementById(`previewCanvas-${index}`);
+        if (!canvas) {
+          console.warn(`Canvas not found for image ${index}`);
+          return;
+        }
+        const ctx = canvas.getContext('2d');
+        imageObj.currentWidth = newWidth;
+        imageObj.currentHeight = newHeight;
+        drawImage(imageObj, canvas, ctx, newWidth, newHeight);
+      });
+    }
+
+    // Flip image
+    function flipImage(direction) {
+      if (!images.length) {
+        showToast('Please upload an image first.');
+        return;
+      }
+      if (direction === 'horizontal') {
+        flipHorizontal = !flipHorizontal;
+      } else {
+        flipVertical = !flipVertical;
+      }
+      images.forEach((imageObj, index) => {
+        const canvas = document.getElementById(`previewCanvas-${index}`);
+        const ctx = canvas.getContext('2d');
+        drawImage(imageObj, canvas, ctx);
+      });
+      saveHistory();
+    }
+
+    // Rotate image
+    function rotateImage(deg) {
+      if (!images.length) {
+        showToast('Please upload an image first.');
+        return;
+      }
+      rotation = (rotation + deg) % 360;
+      images.forEach((imageObj, index) => {
+        const canvas = document.getElementById(`previewCanvas-${index}`);
+        const ctx = canvas.getContext('2d');
+        drawImage(imageObj, canvas, ctx);
+      });
+      saveHistory();
+    }
+
+    // Undo/Redo
+    function saveHistory() {
+      const state = {
+        flipHorizontal,
+        flipVertical,
+        rotation,
+        width: parseInt(resizeWidthInput.value) || images[0]?.width,
+        height: parseInt(resizeHeightInput.value) || images[0]?.height
+      };
+      history = history.slice(0, historyIndex + 1);
+      history.push(state);
+      historyIndex++;
+    }
+
+    function undo() {
+      if (historyIndex <= 0) {
+        showToast('Nothing to undo.');
+        return;
+      }
+      historyIndex--;
+      applyHistoryState();
+    }
+
+    function redo() {
+      if (historyIndex >= history.length - 1) {
+        showToast('Nothing to redo.');
+        return;
+      }
+      historyIndex++;
+      applyHistoryState();
+    }
+
+    function applyHistoryState() {
+      const state = history[historyIndex];
+      flipHorizontal = state.flipHorizontal;
+      flipVertical = state.flipVertical;
+      rotation = state.rotation;
+      resizeWidthInput.value = state.width;
+      resizeHeightInput.value = state.height;
+      images.forEach((imageObj, index) => {
+        imageObj.currentWidth = state.width;
+        imageObj.currentHeight = state.height;
+        const canvas = document.getElementById(`previewCanvas-${index}`);
+        const ctx = canvas.getContext('2d');
+        drawImage(imageObj, canvas, ctx, state.width, state.height);
+      });
+    }
+
+    // Resize images
+    function resizeImages() {
+      if (!images.length) {
+        showToast('Please upload an image first.');
+        return;
+      }
+
+      const newWidth = parseInt(resizeWidthInput.value);
+      const newHeight = parseInt(resizeHeightInput.value);
+
+      if (isNaN(newWidth) || isNaN(newHeight) || newWidth <= 0 || newHeight <= 0) {
+        showToast('Please enter valid dimensions.');
+        return;
+      }
+
+      if (newWidth > 10000 || newHeight > 10000) {
+        showToast('Dimensions too large. Maximum allowed is 10000px.');
+        return;
+      }
+
+      downloadLink.classList.add('loading');
+      const format = outputFormatSelect.value;
+      const quality = format === 'image/jpeg' ? parseInt(jpgQualityInput.value) / 100 : 1.0;
+
+      if (images.length === 1) {
+        // Single image download
+        const imageObj = images[0];
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+
+        // Adjust dimensions for rotation
+        let finalWidth = newWidth;
+        let finalHeight = newHeight;
+        if (rotation % 180 !== 0) {
+          finalWidth = newHeight;
+          finalHeight = newWidth;
+        }
+
+        // Set canvas to exact dimensions (no extra scaling)
+        canvas.width = finalWidth;
+        canvas.height = finalHeight;
+
+        // Apply transformations and draw directly from original image
+        ctx.save();
+        ctx.translate(finalWidth / 2, finalHeight / 2);
+        ctx.rotate((rotation * Math.PI) / 180);
+        if (flipHorizontal) ctx.scale(-1, 1);
+        if (flipVertical) ctx.scale(1, -1);
+        ctx.drawImage(imageObj.img, -newWidth / 2, -newHeight / 2, newWidth, newHeight);
+        ctx.restore();
+
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            showToast('Failed to process the image.');
+            downloadLink.classList.remove('loading');
+            return;
+          }
+          imageObj.resizedFileSize = blob.size;
+
+          const fileSizeDiv = previewContainer.children[1];
+          fileSizeDiv.innerHTML = `Original Size: ${(imageObj.fileSize / 1024).toFixed(2)} KB | Resized Size: ${(blob.size / 1024).toFixed(2)} KB`;
+
+          const url = URL.createObjectURL(blob);
+          downloadLink.href = url;
+          downloadLink.download = `resized-image.${format.split('/')[1]}`;
+          downloadLink.style.display = 'inline-flex';
+          downloadLink.classList.remove('loading');
+          showToast('Resized Successfully');
+          setTimeout(() => URL.revokeObjectURL(url), 10000);
+          saveHistory();
+        }, format, quality);
+      } else {
+        // Multiple images - ZIP download
+        const zip = new JSZip();
+        let processedCount = 0;
+
+        images.forEach((imageObj, index) => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+
+          let finalWidth = newWidth;
+          let finalHeight = newHeight;
+          if (rotation % 180 !== 0) {
+            finalWidth = newHeight;
+            finalHeight = newWidth;
+          }
+
+          canvas.width = finalWidth;
+          canvas.height = finalHeight;
+
+          ctx.save();
+          ctx.translate(finalWidth / 2, finalHeight / 2);
+          ctx.rotate((rotation * Math.PI) / 180);
+          if (flipHorizontal) ctx.scale(-1, 1);
+          if (flipVertical) ctx.scale(1, -1);
+          ctx.drawImage(imageObj.img, -newWidth / 2, -newHeight / 2, newWidth, newHeight);
+          ctx.restore();
+
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              showToast('Failed to process an image.');
+              return;
+            }
+            zip.file(`resized-image-${index + 1}.${format.split('/')[1]}`, blob);
+            imageObj.resizedFileSize = blob.size;
+
+            const fileSizeDiv = previewContainer.children[index * 2 + 1];
+            fileSizeDiv.innerHTML = `Original Size: ${(imageObj.fileSize / 1024).toFixed(2)} KB | Resized Size: ${(blob.size / 1024).toFixed(2)} KB`;
+
+            processedCount++;
+            if (processedCount === images.length) {
+              zip.generateAsync({ type: 'blob' }).then((content) => {
+                const url = URL.createObjectURL(content);
+                downloadLink.href = url;
+                downloadLink.download = 'resized-images.zip';
+                downloadLink.style.display = 'inline-flex';
+                downloadLink.classList.remove('loading');
+                showToast('Resized Successfully');
+                setTimeout(() => URL.revokeObjectURL(url), 10000);
+                saveHistory();
+              });
+            }
+          }, format, quality);
+        });
+      }
+    }
+
+    // Update canvas size on window resize
+    window.addEventListener('resize', () => {
+      if (images.length) {
+        reset();
+      }
+    });
+
+    // Include JSZip library for batch download
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+    document.head.appendChild(script);
+  </script>
+</body>
+</html>
