@@ -84,7 +84,7 @@
 
     /* Main container */
     .container {
-      max-width: 100%;
+      max-width: 800px; /* Reduced from 100% */
       margin: 2rem auto;
       padding: 1.5rem;
       background: white;
@@ -398,8 +398,8 @@
       }
 
       .container {
-        margin: 1rem;
-        padding: 1rem;
+        margin: 0.5rem;
+        padding: 0.75rem;
       }
 
       h1 {
@@ -728,13 +728,13 @@
 
       if (isMobile) {
         // On mobile, scale canvas to fit viewport width
-        const maxWidth = viewportWidth - 40; // Account for padding/margins
+        const maxWidth = viewportWidth - 60; // Reduced padding for smaller container
         const imgRatio = img.naturalWidth / img.naturalHeight;
         canvas.width = maxWidth;
         canvas.height = maxWidth / imgRatio;
       } else {
-        // On desktop, use original image dimensions, but cap at a reasonable size
-        const maxWidth = Math.min(img.naturalWidth, 1200); // Cap for performance
+        // On desktop, use a smaller max width
+        const maxWidth = Math.min(img.naturalWidth, 700); // Reduced from 1200px
         const imgRatio = img.naturalWidth / img.naturalHeight;
         canvas.width = maxWidth;
         canvas.height = maxWidth / imgRatio;
